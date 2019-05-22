@@ -601,6 +601,10 @@ module ActiveModel
           type = type.call(@base, options)
         end
 
+        if options[:message] && options[:message].is_a?(Symbol)
+          type = options[:message]
+        end
+
         [attribute.to_sym, type, options]
       end
 

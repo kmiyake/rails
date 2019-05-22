@@ -146,4 +146,13 @@ class FormatValidationTest < ActiveModel::TestCase
   ensure
     Person.clear_validators!
   end
+
+  def test_validates_format_of_setting_custom_message_symbol
+    Topic.validates_format_of(:title, with: /\A[a-z]+\z/, message: :invalid_format)
+
+    t = Topic.new("title" => "123")
+
+    assert_predicate t, :invalid?
+    assert_equal t.errors.added?(:title, :invalid_format), true
+  end
 end
